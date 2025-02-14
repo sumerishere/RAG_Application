@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: webpage-ai-rag
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ragdb
+    username: raguser
+    password: ragpassword
+    initialization-mode: always
+    schema: classpath:schema.sql
+  sql:
+    init:
+      mode: always
+  ai:
+    ollama:
+      chat:
+        model: llama3.2
+    vectorstore:
+      pgvector:
+      index-type: HNSW
+      distance-type: COSINE_DISTANCE
+      dimensions: 1024
+      batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
+      max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
