@@ -57,7 +57,10 @@ public class ChatController {
   @PostConstruct()
   public void postConstruct() {
     var tokenTextSplitter = new TokenTextSplitter();
-    var splitText = tokenTextSplitter.apply(pdfParser.getDocsFromPdf());
+    var documents = htmlParser.getHTMLDocuments();
+    documents.addAll(pdfParser.getDocsFromPdf());
+    logger.info(documents.toString());
+    var splitText = tokenTextSplitter.apply(documents);
     vectorStore.accept(splitText);
   }
 
