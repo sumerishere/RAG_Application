@@ -1,4 +1,4 @@
-package dev.sid.webpage_ai_rag.parser;
+package dev.sid.webpage_ai_rag.document.factory;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component()
-public class PdfParser {
+public class PdfDocumentFactory {
 
-  @Value("classpath:docs/MyResume.pdf")
+  @Value("classpath:docs/Generative-AI-and-LLMs-for-Dummies.pdf")
   private Resource pdfResource;
 
   public List<Document> getDocsFromPdf() {

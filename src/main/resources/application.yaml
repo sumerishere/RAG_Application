@@ -21,3 +21,12 @@ spring:
       dimensions: 1024
       batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
       max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+  docker:
+    compose:
+      lifecycle-management: start-and-stop
+      start:
+        command: up
+      stop:
+        command: down
+        timeout: 5s
+

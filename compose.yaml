@@ -1,6 +1,7 @@
 services:
-  db:
+  vector_store:
     image: pgvector/pgvector:pg17
+    container_name: pgvector_store
     ports:
       - '5432:5432'
     restart: always
