@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "spring.ai.vectorstore.distance-type",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.ai.vectorstore.distance-type'"
+  },
+  {
+    "name": "spring.ai.vectorstore.pgvector.batching-strategy",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.ai.vectorstore.pgvector.batching-strategy'"
+  },
+  {
+    "name": "spring.ai.vectorstore.index-type",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.ai.vectorstore.index-type'"
+  },
+  {
+    "name": "spring.ai.ollama.chat.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.ai.ollama.chat.url'"
+  }
+]}

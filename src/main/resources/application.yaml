@@ -5,22 +5,22 @@ spring:
     url: jdbc:postgresql://localhost:5432/ragdb
     username: raguser
     password: ragpassword
-    initialization-mode: always
-    schema: classpath:schema.sql
   sql:
     init:
       mode: always
+      schema-locations: classpath:schema.sql
   ai:
     ollama:
       chat:
         model: llama3.2
+        url: http://localhost:11434/api/chat
     vectorstore:
       pgvector:
-      index-type: HNSW
-      distance-type: COSINE_DISTANCE
-      dimensions: 1024
-      batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
-      max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 1024
+        batching-strategy: TOKEN_COUNT
+        max-document-batch-size: 10000
   docker:
     compose:
       lifecycle-management: start-and-stop
@@ -29,4 +29,62 @@ spring:
       stop:
         command: down
         timeout: 5s
+
+
+#spring:
+#  application:
+#    name: webpage-ai-rag
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/ragdb
+#    username: raguser
+#    password: ragpassword
+#  sql:
+#    init:
+#      mode: always
+#      schema-locations: classpath:schema.sql
+#  ai:
+#    ollama:
+#      chat:
+#        model: llama3.2
+#    vectorstore:
+#      pgvector:
+#        index-type: HNSW
+#        distance-type: COSINE_DISTANCE
+#        dimensions: 1024
+#        batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
+#        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+#  docker:
+#    compose:
+#      lifecycle-management: start-and-stop
+#      start:
+#        command: up
+#      stop:
+#        command: down
+#        timeout: 5s
+
+
+# ----------------- Or application.properties format ------------------#
+
+
+
+#spring.application.name=webpage-ai-rag
+#spring.datasource.url=jdbc:postgresql://localhost:5432/ragdb
+#spring.datasource.username=raguser
+#spring.datasource.password=ragpassword
+
+#spring.sql.init.mode=always
+#spring.sql.init.schema-locations=classpath:schema.sql
+
+#spring.ai.ollama.chat.model=llama3.2
+
+#spring.ai.vectorstore.pgvector.index-type=HNSW
+#spring.ai.vectorstore.pgvector.distance-type=COSINE_DISTANCE
+#spring.ai.vectorstore.pgvector.dimensions=1024
+#spring.ai.vectorstore.pgvector.batching-strategy=TOKEN_COUNT
+#spring.ai.vectorstore.pgvector.max-document-batch-size=10000
+
+#spring.docker.compose.lifecycle-management=start-and-stop
+#spring.docker.compose.start.command=up
+#spring.docker.compose.stop.command=down
+#spring.docker.compose.stop.timeout=5s
 

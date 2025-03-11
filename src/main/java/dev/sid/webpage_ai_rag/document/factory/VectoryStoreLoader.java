@@ -31,15 +31,22 @@ public class VectoryStoreLoader {
 
   @PostConstruct()
   public void postConstruct() {
+	  
     var tokenTextSplitter = new TokenTextSplitter();
     LOGGER.info("Loading HTML documents.");
+    
     var htmlDocuments = htmlDocumentFactory.getHTMLDocuments();
     LOGGER.info("Loading PDF documents.");
+    
     var pdfDocuments = pdfDocumentFactory.getDocsFromPdf();
+    
     final List<Document> documents = new ArrayList<>(htmlDocuments);
     documents.addAll(pdfDocuments);
+    
     var splitText = tokenTextSplitter.apply(documents);
+    
     vectorStore.accept(splitText);
     LOGGER.info("Finished loading documents. Size: {}.",documents.size());
+    
   }
 }

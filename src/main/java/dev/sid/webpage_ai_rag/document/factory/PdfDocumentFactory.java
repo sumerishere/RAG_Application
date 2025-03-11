@@ -17,6 +17,7 @@ public class PdfDocumentFactory {
   private Resource pdfResource;
 
   public List<Document> getDocsFromPdf() {
+	  
     PagePdfDocumentReader pdfReader = new PagePdfDocumentReader(pdfResource,
         PdfDocumentReaderConfig.builder()
             .withPageTopMargin(0)
