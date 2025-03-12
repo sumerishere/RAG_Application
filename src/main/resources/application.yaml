@@ -1,34 +1,59 @@
 spring:
   application:
     name: webpage-ai-rag
+  main:
+    lazy-initialization: true
   datasource:
     url: jdbc:postgresql://localhost:5432/ragdb
     username: raguser
     password: ragpassword
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+      connection-timeout: 3000
+      initialization-fail-timeout: 0
   sql:
     init:
-      mode: always
+      mode: always  # Disable schema initialization on startup
       schema-locations: classpath:schema.sql
   ai:
     ollama:
       chat:
-        model: llama3.2
+        model: llama3.2:latest
         url: http://localhost:11434
+        timeout: 5000  # Add a timeout for Ollama connections
     vectorstore:
       pgvector:
         index-type: HNSW
         distance-type: COSINE_DISTANCE
         dimensions: 1024
         batching-strategy: TOKEN_COUNT
-        max-document-batch-size: 10000
+        max-document-batch-size: 1000  # Reduce batch size for faster processing
   docker:
     compose:
       lifecycle-management: start-and-stop
       start:
-        command: up
+        command: up # Wait for services to be healthy
       stop:
-        command: down
-        timeout: 5s
+        timeout: 5s        # Increase timeout for stopping services
+  jmx:
+    enabled: true
+
+  management:
+    endpoint:
+      health:
+        show-details: always  # Always show health details
+        metrics:
+          enabled: true         # Enable metrics endpoint
+        info:
+          enabled: true         # Enable info endpoint
+
+logging:
+  level:
+    org.springframework: WARN
+    org.hibernate: WARN
+    com.zaxxer.hikari: INFO
+
 
 
 #spring:
@@ -46,13 +71,14 @@ spring:
 #    ollama:
 #      chat:
 #        model: llama3.2
+#        url: http://localhost:11434
 #    vectorstore:
 #      pgvector:
 #        index-type: HNSW
 #        distance-type: COSINE_DISTANCE
 #        dimensions: 1024
-#        batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
-#        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+#        batching-strategy: TOKEN_COUNT
+#        max-document-batch-size: 10000
 #  docker:
 #    compose:
 #      lifecycle-management: start-and-stop
@@ -61,6 +87,7 @@ spring:
 #      stop:
 #        command: down
 #        timeout: 5s
+
 
 
 # ----------------- Or application.properties format ------------------#

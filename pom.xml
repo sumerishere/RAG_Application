@@ -85,11 +85,10 @@
 	</dependency>
 	
 	<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.18.30</version>
-		<scope>provided</scope>
+	    <groupId>org.springframework.ai</groupId>
+	    <artifactId>spring-ai-ollama-spring-boot-starter</artifactId>
 	</dependency>
+	
     
   </dependencies>
   
@@ -103,6 +102,8 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      
+      
 
     </dependencies>
     

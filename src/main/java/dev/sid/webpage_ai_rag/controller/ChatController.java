@@ -52,6 +52,7 @@ public class ChatController {
     	    .content()
     	    .onErrorResume(e -> {
     	        System.err.println("Error calling Ollama service: " + e.getMessage());
+    	        e.printStackTrace();
     	        return Flux.just("The Ollama service is currently unavailable.");
     	    });
   }
