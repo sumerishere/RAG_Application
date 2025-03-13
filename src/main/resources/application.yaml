@@ -19,9 +19,11 @@ spring:
   ai:
     ollama:
       chat:
-        model: llama3.2:latest
+        model: deepseek-r1:1.5b  #--- or can ollama3.2:latest
         url: http://localhost:11434
-        timeout: 5000  # Add a timeout for Ollama connections
+        temperature: 0.1  # Lower temperature for more focused responses
+        system-prompt: "You are a helpful assistant that answers questions based only on the provided documents."
+
     vectorstore:
       pgvector:
         index-type: HNSW

@@ -31,11 +31,16 @@ public class ChatController {
   private final ChatClient chatClient;
   private final VectorStore vectorStore;
 
-  public ChatController(ChatClient.Builder builder, HtmlDocumentFactory htmlDocumentFactory, PdfDocumentFactory pdfDocumentFactory, VectorStore vectorStore) {
+
+  public ChatController(ChatClient.Builder builder, 
+		  						HtmlDocumentFactory htmlDocumentFactory, 
+		  						PdfDocumentFactory pdfDocumentFactory, 
+		  						VectorStore vectorStore) {
     this.chatClient = builder.build();
     this.vectorStore = vectorStore;
   }
-
+  
+  
   @GetMapping(value = "/chat")
   public Flux<String> testClient(@RequestParam(value = "query", defaultValue = "What is RAG?") final String query) {
 	  
@@ -50,6 +55,13 @@ public class ChatController {
     return chatClient.prompt(promptTemplate.create(promptParams))
     	    .stream()
     	    .content()
+    	    
+//    	    .map(content -> {
+//    	        // Log response for debugging
+//    	        System.out.println("Model response: " + content);
+//    	        return content;
+//    	    })
+    	    
     	    .onErrorResume(e -> {
     	        System.err.println("Error calling Ollama service: " + e.getMessage());
     	        e.printStackTrace();
@@ -62,6 +74,29 @@ public class ChatController {
     return Stream.ofNullable(vectorStore.similaritySearch(SearchRequest.builder().query(message).topK(3).build()))
         .flatMap(Collection::stream)
         .map(Document::getText)
+        .distinct()  //prevent duplication in response
         .toList();
   }
+  
+  
+  
+  
+//  @GetMapping(value = "/chat")
+//  public Flux<String> testClient(@RequestParam(value = "query", defaultValue = "What is RAG?") final String query) {
+//      List<String> relevantDocuments = findSimilaritySearch(query);
+//      
+//      System.out.println("Calling Ollama service with query: " + query);
+//      System.out.println("Found " + relevantDocuments.size() + " relevant documents");
+//      
+//      // Try the v1 API with fallback to legacy
+//      return ollamaService.generateResponse(query, relevantDocuments);
+//  }
+//  
+//  private List<String> findSimilaritySearch(final String message) {
+//	  return Stream.ofNullable(vectorStore.similaritySearch(SearchRequest.builder().query(message).topK(3).build()))
+//	      .flatMap(Collection::stream)
+//	      .map(Document::getText)
+//	      .toList();
+//	}
+ 
 }
