@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import dev.sid.webpage_ai_rag.controller.ChatController;
 import jakarta.annotation.PostConstruct;
 
-@Component()
+@Component
 public class VectoryStoreLoader {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);

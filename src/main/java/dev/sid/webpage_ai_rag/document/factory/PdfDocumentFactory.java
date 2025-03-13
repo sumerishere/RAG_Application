@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-@Component()
+@Component
 public class PdfDocumentFactory {
 
   @Value("classpath:docs/Generative-AI-and-LLMs-for-Dummies.pdf")

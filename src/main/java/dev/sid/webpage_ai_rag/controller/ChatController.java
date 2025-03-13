@@ -48,6 +48,7 @@ public class ChatController {
    
     Map<String, Object> promptParams = Map.of("input", query, "documents", String.join("\n", findSimilaritySearch(query)));
     
+    //basic logging added.
     System.out.println("Calling Ollama service with query: " + query);
     System.out.println("Prompt params: " + promptParams);
     
@@ -55,13 +56,6 @@ public class ChatController {
     return chatClient.prompt(promptTemplate.create(promptParams))
     	    .stream()
     	    .content()
-    	    
-//    	    .map(content -> {
-//    	        // Log response for debugging
-//    	        System.out.println("Model response: " + content);
-//    	        return content;
-//    	    })
-    	    
     	    .onErrorResume(e -> {
     	        System.err.println("Error calling Ollama service: " + e.getMessage());
     	        e.printStackTrace();
