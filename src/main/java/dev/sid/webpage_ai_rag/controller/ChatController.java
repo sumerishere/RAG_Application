@@ -11,7 +11,12 @@ import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +26,7 @@ import dev.sid.webpage_ai_rag.document.factory.HtmlDocumentFactory;
 import dev.sid.webpage_ai_rag.document.factory.PdfDocumentFactory;
 import reactor.core.publisher.Flux;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/web-ai-rag")
 public class ChatController {
@@ -73,6 +79,34 @@ public class ChatController {
   }
   
   
+  @GetMapping("/generative-ai")
+  public ResponseEntity<Resource> getGenerativeAIPdf() {
+      Resource resource = new ClassPathResource("docs/Generative-AI-and-LLMs-for-Dummies.pdf");
+
+      if (resource.exists() || resource.isReadable()) {
+          return ResponseEntity.ok()
+              .contentType(MediaType.APPLICATION_PDF)
+              // Remove the Content-Disposition header or change it to "inline"
+              .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+              .body(resource);
+      } else {
+          return ResponseEntity.notFound().build();
+      }
+  }
+  
+//  @GetMapping("/generative-ai")
+//  public ResponseEntity<Resource> getGenerativeAIPdf() {
+//      Resource resource = new ClassPathResource("docs/Generative-AI-and-LLMs-for-Dummies.pdf");
+//
+//      if (resource.exists() || resource.isReadable()) {
+//          return ResponseEntity.ok()
+//                  .contentType(MediaType.APPLICATION_PDF)
+//                  .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+//                  .body(resource);
+//      } else {
+//          return ResponseEntity.notFound().build();
+//      }
+//  }
   
   
 //  @GetMapping(value = "/chat")
