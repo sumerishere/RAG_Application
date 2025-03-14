@@ -69,44 +69,30 @@ public class ChatController {
     	    });
   }
 
-  private List<String> findSimilaritySearch(final String message) {
+	 private List<String> findSimilaritySearch(final String message) {
+		  
+	    return Stream.ofNullable(vectorStore.similaritySearch(SearchRequest.builder().query(message).topK(3).build()))
+	        .flatMap(Collection::stream)
+	        .map(Document::getText)
+	        .distinct()  //prevent duplication in response
+	        .toList();
+	  }
 	  
-    return Stream.ofNullable(vectorStore.similaritySearch(SearchRequest.builder().query(message).topK(3).build()))
-        .flatMap(Collection::stream)
-        .map(Document::getText)
-        .distinct()  //prevent duplication in response
-        .toList();
-  }
   
-  
-  @GetMapping("/generative-ai")
-  public ResponseEntity<Resource> getGenerativeAIPdf() {
-      Resource resource = new ClassPathResource("docs/Generative-AI-and-LLMs-for-Dummies.pdf");
-
-      if (resource.exists() || resource.isReadable()) {
-          return ResponseEntity.ok()
-              .contentType(MediaType.APPLICATION_PDF)
-              // Remove the Content-Disposition header or change it to "inline"
-              .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-              .body(resource);
-      } else {
-          return ResponseEntity.notFound().build();
-      }
-  }
-  
-//  @GetMapping("/generative-ai")
-//  public ResponseEntity<Resource> getGenerativeAIPdf() {
-//      Resource resource = new ClassPathResource("docs/Generative-AI-and-LLMs-for-Dummies.pdf");
-//
-//      if (resource.exists() || resource.isReadable()) {
-//          return ResponseEntity.ok()
-//                  .contentType(MediaType.APPLICATION_PDF)
-//                  .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-//                  .body(resource);
-//      } else {
-//          return ResponseEntity.notFound().build();
-//      }
-//  }
+	  @GetMapping("/generative-ai")
+	  public ResponseEntity<Resource> getGenerativeAIPdf() {
+	      Resource resource = new ClassPathResource("docs/Generative-AI-and-LLMs-for-Dummies.pdf");
+	
+	      if (resource.exists() || resource.isReadable()) {
+	          return ResponseEntity.ok()
+	              .contentType(MediaType.APPLICATION_PDF)
+	              // Remove the Content-Disposition header or change it to "inline"
+	              .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+	              .body(resource);
+	      } else {
+	          return ResponseEntity.notFound().build();
+	      }
+	  }
   
   
 //  @GetMapping(value = "/chat")
