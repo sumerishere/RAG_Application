@@ -93,24 +93,5 @@ public class ChatController {
 	          return ResponseEntity.notFound().build();
 	      }
 	  }
-  
-  
-//  @GetMapping(value = "/chat")
-//  public Flux<String> testClient(@RequestParam(value = "query", defaultValue = "What is RAG?") final String query) {
-//      List<String> relevantDocuments = findSimilaritySearch(query);
-//      
-//      System.out.println("Calling Ollama service with query: " + query);
-//      System.out.println("Found " + relevantDocuments.size() + " relevant documents");
-//      
-//      // Try the v1 API with fallback to legacy
-//      return ollamaService.generateResponse(query, relevantDocuments);
-//  }
-//  
-//  private List<String> findSimilaritySearch(final String message) {
-//	  return Stream.ofNullable(vectorStore.similaritySearch(SearchRequest.builder().query(message).topK(3).build()))
-//	      .flatMap(Collection::stream)
-//	      .map(Document::getText)
-//	      .toList();
-//	}
  
 }
