@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.sid.webpage_ai_rag.document.factory.HtmlDocumentFactory;
 import dev.sid.webpage_ai_rag.document.factory.PdfDocumentFactory;
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 @CrossOrigin("*")
 @RestController
@@ -62,6 +63,11 @@ public class ChatController {
     return chatClient.prompt(promptTemplate.create(promptParams))
     	    .stream()
     	    .content()
+    	    
+    	    .subscribeOn(Schedulers.boundedElastic()) // Offload to a separate thread
+    	    .buffer(1024) // Stream in chunks of 1024 characters
+    	    .flatMap(Flux::fromIterable)
+    	    
     	    .onErrorResume(e -> {
     	        System.err.println("Error calling Ollama service: " + e.getMessage());
     	        e.printStackTrace();

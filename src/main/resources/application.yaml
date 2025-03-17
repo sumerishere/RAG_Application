@@ -8,10 +8,11 @@ spring:
     username: raguser
     password: ragpassword
     hikari:
-      minimum-idle: 2
-      maximum-pool-size: 10
-      connection-timeout: 3000
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-timeout: 2000
       initialization-fail-timeout: 0
+      connection-test-query: SELECT 1
   sql:
     init:
       mode: always  # Disable schema initialization on startup
@@ -46,12 +47,12 @@ spring:
       health:
         show-details: always  # Always show health details
         metrics:
-          enabled: true         # Enable metrics endpoint
+          enabled: false         # Enable metrics endpoint
         info:
-          enabled: true         # Enable info endpoint
+          enabled: false         # Enable info endpoint
 
 logging:
   level:
-    org.springframework: WARN
-    org.hibernate: WARN
+    org.springframework: ERROR
+    org.hibernate: ERROR
     com.zaxxer.hikari: INFO
