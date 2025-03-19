@@ -11,7 +11,8 @@ spring:
       minimum-idle: 5
       maximum-pool-size: 20
       connection-timeout: 2000
-      initialization-fail-timeout: 0
+      idle-timeout: 30000
+      max-lifetime: 1800000
       connection-test-query: SELECT 1
   sql:
     init:
@@ -50,6 +51,11 @@ spring:
           enabled: false         # Enable metrics endpoint
         info:
           enabled: false         # Enable info endpoint
+  data:
+    redis:
+      port: 6379
+      timeout: 2000
+      host: localhost
 
 logging:
   level:

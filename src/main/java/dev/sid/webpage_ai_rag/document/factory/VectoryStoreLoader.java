@@ -24,9 +24,9 @@ public class VectoryStoreLoader {
 
   public VectoryStoreLoader(HtmlDocumentFactory htmlDocumentFactory, PdfDocumentFactory pdfDocumentFactory,
       VectorStore vectorStore) {
-    this.htmlDocumentFactory = htmlDocumentFactory;
-    this.pdfDocumentFactory = pdfDocumentFactory;
-    this.vectorStore = vectorStore;
+	  this.htmlDocumentFactory = htmlDocumentFactory;
+	  this.pdfDocumentFactory = pdfDocumentFactory;
+	  this.vectorStore = vectorStore;
   }
 
   @PostConstruct()
