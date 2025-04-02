@@ -1,3 +1,7 @@
+server:
+  address: 0.0.0.0  # This allows connections from any network interface
+  port: 8080        # The port your Spring Boot app will listen on
+
 spring:
   application:
     name: webpage-ai-rag

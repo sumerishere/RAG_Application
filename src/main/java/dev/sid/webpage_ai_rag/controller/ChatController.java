@@ -69,7 +69,7 @@ public class ChatController {
           System.out.println("--------------------------------------------------------");
           return Flux.just(cachedResponse);
       }
-
+      
       // Log time for vector store query
       long vectorStoreStartTime = System.currentTimeMillis();
       List<String> documents = findSimilaritySearch(query);

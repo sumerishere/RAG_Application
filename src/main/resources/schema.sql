@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS vector_store (
 	embedding vector(1024)
 );
 
-CREATE INDEX ON vector_store USING HNSW (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+CREATE INDEX ON vector_store USING HNSW (embedding vector_cosine_ops) WITH (m = 10, ef_construction = 64);
 
