@@ -1,68 +1,31 @@
 server:
-  address: 0.0.0.0  # This allows connections from any network interface
-  port: 8080        # The port your Spring Boot app will listen on
+  address: 0.0.0.0
+  port: ${PORT:8080}  # Dynamic port for Koyeb
 
 spring:
   application:
     name: webpage-ai-rag
-  main:
-    lazy-initialization: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/ragdb
-    username: raguser
-    password: ragpassword
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ragdb}
+    username: ${DATABASE_USER:raguser}
+    password: ${DATABASE_PASSWORD:ragpassword}
     hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      connection-timeout: 2000
-      idle-timeout: 30000
-      max-lifetime: 1800000
-      connection-test-query: SELECT 1
-  sql:
-    init:
-      mode: always  # Disable schema initialization on startup
-      schema-locations: classpath:schema.sql
+      connection-timeout: 10000  # Higher timeout for cloud
   ai:
     ollama:
       chat:
-        model: deepseek-r1:1.5b  #--- or can ollama3.2:latest
-        url: http://localhost:11434
-        temperature: 0.1  # Lower temperature for more focused responses
-        system-prompt: "You are a helpful assistant that answers questions based only on the provided documents."
-
-    vectorstore:
-      pgvector:
-        index-type: HNSW
-        distance-type: COSINE_DISTANCE
-        dimensions: 1024
-        batching-strategy: TOKEN_COUNT
-        max-document-batch-size: 1000  # Reduce batch size for faster processing
-  docker:
-    compose:
-      lifecycle-management: start-and-stop
-      start:
-        command: up # Wait for services to be healthy
-      stop:
-        timeout: 5s        # Increase timeout for stopping services
-  jmx:
-    enabled: true
-
-  management:
-    endpoint:
-      health:
-        show-details: always  # Always show health details
-        metrics:
-          enabled: false         # Enable metrics endpoint
-        info:
-          enabled: false         # Enable info endpoint
+        url: ${OLLAMA_URL:http://localhost:11434}
   data:
     redis:
-      port: 6379
-      timeout: 2000
-      host: localhost
+      host: ${REDIS_HOST:localhost}
+      timeout: 5000
 
-logging:
-  level:
-    org.springframework: ERROR
-    org.hibernate: ERROR
-    com.zaxxer.hikari: INFO
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
